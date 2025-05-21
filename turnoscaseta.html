@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Turnos Caseta El Albero</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #35321b, #361d1d);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ffd700;
+            text-transform: uppercase;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .menu {
+            margin: 10px 0;
+        }
+
+        .menu a {
+            color: #ffd700;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            cursor: pointer;
+            background-color: #996e2d;
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .menu a:hover {
+            color: #fffacd;
+        }
+
+        .logo-placeholder {
+            width: 150px;
+            height: 150px;
+            background-image: url('https://raw.githubusercontent.com/Fedes10/Archivos-Html/refs/heads/main/albero/albero.jpeg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: #b69871;
+            background-size: 11em;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+            border: 2px solid #9e924d;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .card {
+            background: #292929;
+            border-radius: 20px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            margin-bottom: 20px;
+            animation: fadeIn 0.6s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffd700;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .card input,
+        .card select {
+            width: calc(100% - 22px);
+            padding: 12px 10px;
+            margin: 8px 0;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+        }
+
+        .input-button-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .card input#codigoInput {
+            flex-grow: 1;
+        }
+
+        .card button {
+            padding: 10px 15px;
+            background: #ffd700;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 12px;
+            font-size: 1rem;
+            border: none;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .card button:hover {
+            background: #ffe866;
+        }
+
+        .calendar {
+            margin-top: 15px;
+            border-collapse: collapse;
+            width: 100%;
+            color: white;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+
+        .calendar th,
+        .calendar td {
+            padding: 12px 10px;
+            text-align: center;
+            border: none;
+            white-space: nowrap;
+        }
+
+        .calendar thead tr {
+            background: linear-gradient(90deg, #bfa340, #ffdc73);
+            color: #2f1e00;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+        }
+
+        .calendar tbody tr:nth-child(odd) {
+            background-color: #3a3a3a;
+        }
+
+        .calendar tbody tr:nth-child(even) {
+            background-color: #2b2b2b;
+        }
+
+        .calendar tbody tr.weekend {
+            background-color: #442c00;
+            color: #ffd966;
+            font-weight: 700;
+        }
+
+        .calendar tbody tr.friday {
+            background-color: #442c00;
+            color: #ffd966;
+            font-weight: 700;
+        }
+
+        .weekday td {
+            color: #f0e68c;
+        }
+
+        .summary {
+            margin-top: 15px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: center;
+            background-color: #2d2d2d;
+            border-radius: 15px;
+            padding: 12px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .summary button {
+            margin-top: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            border-radius: 12px;
+            background: #ffd700;
+            color: #000;
+            padding: 7px 15px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .summary button:hover {
+            background: #ffe866;
+        }
+
+        #pago {
+            margin-top: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+
+        .error {
+            text-align: center;
+            color: #ff4d4d;
+            font-size: 1.2rem;
+            margin-top: 10px;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.8px;
+        }
+
+        .error-icon {
+            font-size: 1.6rem;
+            color: #ff7070;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .card {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .calendar {
+                font-size: 0.9rem;
+            }
+
+            .card input,
+            .card button {
+                font-size: 1rem;
+            }
+
+            .summary {
+                font-size: 1rem;
+            }
+
+            .summary button {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Ajustes para admin panel botones más pequeños */
+        #admin>div>button {
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            margin-right: 8px;
+            min-width: 80px;
+        }
+
+        #admin>div>button:last-child {
+            min-width: 40px;
+            padding: 6px 10px;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Fedes10/Archivos-Html/refs/heads/main/albero/turnos.png">
+    <header>
+        <div class="logo-placeholder"></div>
+        <h1>Turnos Caseta El Albero</h1>
+        <div class="menu">
+            <a href="javascript:void(0);" onclick="volverAlInicio()">Inicio</a>
+
+        </div>
+    </header>
+
+    <div class="card" id="codigo">
+        <h2>Fichar</h2>
+        <div class="input-button-wrapper">
+            <input type="text" id="codigoInput" placeholder="Código de empleado" aria-label="Código de empleado">
+            <button onclick="fichar()" aria-label="Entrar">Entrar</button>
+        </div>
+
+        <div class="log" id="log" role="alert"></div>
+        <div id="calendar"></div>
+    </div>
+
+    <div class="card" id="admin" style="display: none;">
+        <h2>Panel de Administrador</h2>
+        <div style="margin-bottom:10px;">
+            <button onclick="mostrarHorario()">Horario</button>
+            <button onclick="mostrarEmpleados()">Empleados</button>
+            <button onclick="mostrarResumen()">Resumen de Pagos</button>
+            <button onclick="actualizarAdmin()" title="Actualizar">&#8635;</button>
+        </div>
+        <div id="adminContent" style="max-height: 400px; overflow-y: auto;"></div>
+    </div>
+
+    <script>
+        const tarifa = 9;
+
+        const empleados = {
+                "alv789": { nombre: "ALVARO", rol: "camarero" },
+                "antn456": { nombre: "ANTONIO NELLA", rol: "recojevasos" },
+                "antp321": { nombre: "ANTONIO POLLO", rol: "camarero" },
+                "bla654": { nombre: "BLAS", rol: "camarero" },
+                "cec987": { nombre: "CECILIA", rol: "camarero" },
+                "dav123": { nombre: "DAVID", rol: "camarero" },
+                "enr456": { nombre: "ENRIQUE", rol: "camarero" },
+                "fed100": { nombre: "FEDE", rol: "recojevasos" },
+                "hor321": { nombre: "HORACIO", rol: "camarero" },
+                "isa654": { nombre: "ISAAC", rol: "camarero" },
+                "jav987": { nombre: "JAVI POLLO", rol: "camarero" },
+                "jos123": { nombre: "JOSE TIRADO", rol: "camarero" },
+                "jua456": { nombre: "JUAN CARLOS", rol: "camarero" },
+                "mar789": { nombre: "MARIA", rol: "camarero" },
+                "maj321": { nombre: "MARIA JOSE", rol: "camarero" },
+                "ort654": { nombre: "ORTI", rol: "camarero" },
+                "pac987": { nombre: "PACO", rol: "camarero" },
+                "rua123": { nombre: "RUANO", rol: "camarero" },
+                "sor456": { nombre: "SORAYA", rol: "camarero" },
+                "pue789": { nombre: "PUERTA AMIGO DAVID", rol: "camarero" },
+                "ser321": { nombre: "SERGIO", rol: "camarero" },
+                "rrp654": { nombre: "RRPP", rol: "admin" },
+                "rrr987": { nombre: "RRPP RENFE", rol: "admin" },
+                "admin333": { nombre: "ADMIN", rol: "admin" }
+            };
+
+            const turnos = {
+                "alv789": {
+                    "Viernes 23": { entrada: "11:00", salida: "12:00", horas: 4 },
+                    "Sábado 24": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "antn456": {
+                    "Viernes 23": { entrada: "0:00", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "antp321": {
+                    "Viernes 23": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "bla654": {
+                    "Viernes 23": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "cec987": {
+                    "Viernes 23": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 31": { entrada: "--", salida: "--", horas: 0 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "dav123": {
+                    "Viernes 23": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "11:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "enr456": {
+                    "Viernes 23": { entrada: "0:00", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "16:00", salida: "20:00", horas: 4 },
+                    "Domingo 25": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "14:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "fed100": {
+                    "Viernes 23": { entrada: "22:00", salida: "00:00", horas: 4 },
+                    "Sábado 24": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "16:00", salida: "17:00", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "hor321": {
+                    "Viernes 23": { entrada: "21:30", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "14:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "14:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "isa654": {
+                    "Viernes 23": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "--", salida: "--", horas: 0 },
+                    "Domingo 25": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "jav987": {
+                    "Viernes 23": { entrada: "0:00", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "--", salida: "--", horas: 0 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "jos123": {
+                    "Viernes 23": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 31": { entrada: "16:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "jua456": {
+                    "Viernes 23": { entrada: "21:30", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "17:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "mar789": {
+                    "Viernes 23": { entrada: "21:30", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "maj321": {
+                    "Viernes 23": { entrada: "21:30", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "--", salida: "--", horas: 0 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "ort654": {
+                    "Viernes 23": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "--", salida: "--", horas: 0 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "--", salida: "--", horas: 0 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "pac987": {
+                    "Viernes 23": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Martes 27": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "rua123": {
+                    "Viernes 23": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "--", salida: "--", horas: 0 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "sor456": {
+                    "Viernes 23": { entrada: "0:00", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "22:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "pue789": {
+                    "Viernes 23": { entrada: "21:30", salida: "--", horas: 4 },
+                    "Sábado 24": { entrada: "20:30", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "20:00", salida: "--", horas: 4 },
+                    "Jueves 29": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "21:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "ser321": {
+                    "Viernes 23": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 24": { entrada: "13:00", salida: "20:10", horas: 4 },
+                    "Domingo 25": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Viernes 30": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Sábado 31": { entrada: "13:00", salida: "--", horas: 4 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "rrp654": {
+                    "Viernes 23": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Sábado 24": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Domingo 25": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Lunes 26": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Martes 27": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Miércoles 28": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Jueves 29": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Viernes 30": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Sábado 31": { entrada: "16:30", salida: "2:30", horas: 8 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "rrr987": {
+                    "Viernes 23": { entrada: "18:00", salida: "--", horas: 2 },
+                    "Sábado 24": { entrada: "20:30", salida: "--", horas: 4 },
+                    "Domingo 25": { entrada: "--", salida: "--", horas: 0 },
+                    "Lunes 26": { entrada: "--", salida: "--", horas: 0 },
+                    "Martes 27": { entrada: "--", salida: "--", horas: 0 },
+                    "Miércoles 28": { entrada: "--", salida: "--", horas: 0 },
+                    "Jueves 29": { entrada: "--", salida: "--", horas: 0 },
+                    "Viernes 30": { entrada: "--", salida: "--", horas: 0 },
+                    "Sábado 31": { entrada: "--", salida: "--", horas: 0 },
+                    "Domingo 1": { entrada: "--", salida: "--", horas: 0 }
+                },
+                "admin333": {}
+            };
+        const dias = [
+            "Viernes 23", "Sábado 24", "Domingo 25", "Lunes 26", "Martes 27",
+            "Miércoles 28", "Jueves 29", "Viernes 30", "Sábado 31", "Domingo 1"
+        ];
+
+        function fichar() {
+            const codigo = document.getElementById('codigoInput').value.trim().toLowerCase();
+            const log = document.getElementById('log');
+            const calendario = document.getElementById('calendar');
+
+            const data = empleados[codigo];
+
+            if (!data) {
+                log.innerHTML = `<div class="error"><span class="error-icon">⚠️</span> Código no válido. Por favor, inténtalo de nuevo.</div>`;
+                calendario.innerHTML = '';
+                return;
+            }
+
+            if (data.rol === "admin" || data.rol === "admin333") {
+                log.innerHTML = `<b>Bienvenido, ${data.nombre}</b>. Aquí puedes ver todos los calendarios.`;
+                document.getElementById('codigo').style.display = 'none';
+                document.getElementById('admin').style.display = 'block';
+                mostrarHorario();
+            } else {
+                log.innerHTML = `<b>Bienvenido, ${data.nombre}</b> (${data.rol}). Aquí tienes tu calendario de turnos.`;
+                document.getElementById('admin').style.display = 'none';
+                document.getElementById('codigo').style.display = 'block';
+                const calendarioPersonal = turnos[codigo];
+                if (!calendarioPersonal) {
+                                    calendario.innerHTML = `<div class="error"><span class="error-icon">⚠️</span> Sin calendario disponible para este empleado.</div>`;
+                                    return;
+                                }
+                                calendario.innerHTML = crearCalendario(calendarioPersonal, codigo);
+                            }
+                        }
+
+                        function crearCalendario(turnosEmpleado, codigoEmpleado) {
+                            let tabla = '<table class="calendar"><thead><tr><th>Día</th><th>Entrada</th><th>Salida</th><th>Horas</th></tr></thead><tbody>';
+                            dias.forEach(dia => {
+                                const info = turnosEmpleado[dia] || { entrada: "--", salida: "--" };
+                                const esFinDeSemana = dia.includes("Sábado") || dia.includes("Domingo");
+                                const esViernes = dia.includes("Viernes");
+                                let clase = "weekday";
+                                if (esViernes) clase = "friday";
+                                else if (esFinDeSemana) clase = "weekend";
+                                const horas = calcularHoras(info.entrada, info.salida);
+                                tabla += `<tr class="${clase}"><td>${dia}</td><td>${info.entrada}</td><td>${info.salida}</td><td>${horas.toFixed(2)}h</td></tr>`;
+                            });
+                            tabla += '</tbody></table>';
+                            const horasTotales = calcularHorasTotales(codigoEmpleado);
+                            tabla += `<div class='summary'>Total de horas: ${horasTotales.toFixed(2)}h<br><button onclick='calcularPago("${codigoEmpleado}")'>Calcular pago</button><div id='pago'></div></div>`;
+                            return tabla;
+                        }
+
+                        function calcularHoras(entrada, salida) {
+                            if (entrada === "--" || salida === "--") return 0;
+                            const [hEntrada, mEntrada] = entrada.split(':').map(Number);
+                            const [hSalida, mSalida] = salida.split(':').map(Number);
+                            const totalEntrada = hEntrada * 60 + mEntrada;
+                            const totalSalida = hSalida * 60 + mSalida;
+                            // Si la salida es menor que la entrada, significa que cruzó la medianoche
+                            return totalSalida < totalEntrada ? (1440 - totalEntrada + totalSalida) / 60 : (totalSalida - totalEntrada) / 60;
+                        }
+
+                        function calcularHorasTotales(codigoEmpleado) {
+                            let horasTotales = 0;
+                            dias.forEach(dia => {
+                                const info = turnos[codigoEmpleado] ? (turnos[codigoEmpleado][dia] || { entrada: "--", salida: "--" }) : { entrada: "--", salida: "--" };
+                                horasTotales += calcularHoras(info.entrada, info.salida);
+                            });
+                            return horasTotales;
+                        }
+
+                        function calcularPago(codigoEmpleado) {
+                            const horasTotales = calcularHorasTotales(codigoEmpleado);
+                            const pago = horasTotales * tarifa;
+                            document.getElementById('pago').innerText = `Pago estimado: ${pago.toFixed(2)}€`;
+                        }
+
+                        function mostrarHorario() {
+                            const adminContent = document.getElementById('adminContent');
+                            let salida = '<h3>Horario General de Todos los Empleados</h3>';
+                            salida += crearCalendarioGlobal();
+                            adminContent.innerHTML = salida;
+                        }
+
+                        //------------------------------------------------------------------------------ Calendario global
+                        function crearCalendarioGlobal() {
+                            let tabla = '<table class="calendar"><thead><tr>';
+                            // Encabezados de los días
+                            dias.forEach(dia => {
+                                tabla += `<th>${dia}</th>`;
+                            });
+                            tabla += '</tr></thead><tbody>';
+                            // Añadir 6 filas vacías con "h"
+                            for (let i = 0; i < 6; i++) {
+                                tabla += '<tr>';
+                                dias.forEach(() => {
+                                    tabla += '<td>h</td>';
+                                });
+                                tabla += '</tr>';
+                            }
+                            tabla += '</tbody></table>';
+                            return tabla;
+                        }
+                        //------------------------------------------------------------------------------
+
+                        function mostrarEmpleados() {
+                            const adminContent = document.getElementById('adminContent');
+                            let salida = '<h3>Calendarios de Empleados</h3>';
+                            salida += '<input type="text" id="searchEmpleado" placeholder="Buscar empleado por nombre" oninput="filtrarEmpleados()" style="width: 100%; padding: 8px; margin-bottom:10px; border-radius:10px; border:none; font-size:1rem;">';
+                            salida += '<div id="empleadosList">';
+                            salida += crearCalendariosEmpleados();
+                            salida += '</div>';
+                            adminContent.innerHTML = salida;
+                        }
+
+                        function crearCalendariosEmpleados(filter = '') {
+                            let html = '';
+                            for (const codigoEmpleado in empleados) {
+                                if (empleados[codigoEmpleado].nombre.toLowerCase().includes(filter.toLowerCase()) && empleados[codigoEmpleado].rol !== 'admin') {
+                                    const calendario = turnos[codigoEmpleado] || {};
+                                    html += `<h4 style="color:#ffd700; margin-bottom:5px;">${empleados[codigoEmpleado].nombre} (${empleados[codigoEmpleado].rol})</h4>`;
+                                    html += crearCalendario(calendario, codigoEmpleado);
+                                }
+                            }
+                            if (html === '') html = '<p>No se encontraron empleados.</p>';
+                            return html;
+                        }
+
+                        function filtrarEmpleados() {
+                            const filtro = document.getElementById('searchEmpleado').value;
+                            document.getElementById('empleadosList').innerHTML = crearCalendariosEmpleados(filtro);
+                        }
+
+                        function mostrarResumen() {
+                            const adminContent = document.getElementById('adminContent');
+                            let salida = '<h3>Resumen de Pagos</h3>';
+
+                            // Añadir el botón y el contenedor del total arriba
+                            salida += `<div style="text-align:center; margin-bottom:20px;">
+                  <button onclick="calcularTotalPagos()">Calcular Total a Pagar</button>
+                  <div id="totalPagos" style="margin-top:10px; font-weight:bold; font-size:1.2rem; color:#ffd700;"></div>
+               </div>`;
+
+                            salida += '<input type="text" id="searchResumen" placeholder="Buscar empleado" oninput="filtrarResumen()" style="width: 100%; padding: 8px; margin-bottom:10px; border-radius:10px; border:none; font-size:1rem;">';
+                            salida += '<div id="resumenEmpleados">' + crearResumenEmpleados() + '</div>';
+
+                            adminContent.innerHTML = salida;
+                        }
+
+                        function crearResumenEmpleados(filter = '') {
+                            let resumen = '<table class="calendar"><thead><tr><th>Empleado</th><th>Horas Trabajadas</th><th>Pago Estimado</th></tr></thead><tbody>';
+                            let count = 0;
+                            for (const codigoEmpleado in turnos) {
+                                const nombre = empleados[codigoEmpleado]?.nombre || "Desconocido";
+                                if (nombre.toLowerCase().includes(filter.toLowerCase()) && empleados[codigoEmpleado]?.rol !== 'admin') {
+                                    const horasTotales = calcularHorasTotales(codigoEmpleado);
+                                    const pagoEstimado = horasTotales * tarifa;
+                                    resumen += `<tr><td>${nombre}</td><td>${horasTotales.toFixed(2)}h</td><td>${pagoEstimado.toFixed(2)}€</td></tr>`;
+                                    count++;
+                                }
+                            }
+                            if (count === 0) resumen += `<tr><td colspan="3">No se encontraron empleados.</td></tr>`;
+                            resumen += '</tbody></table>';
+                            return resumen;
+                        }
+
+                        function filtrarResumen() {
+                            const filtro = document.getElementById('searchResumen').value;
+                            document.getElementById('resumenEmpleados').innerHTML = crearResumenEmpleados(filtro);
+                            document.getElementById('totalPagos').innerText = '';
+                        }
+
+                        function calcularTotalPagos() {
+                            let totalPagos = 0;
+                            for (const codigoEmpleado in turnos) {
+                                if (empleados[codigoEmpleado]?.rol !== 'admin') {
+                                    const horas = calcularHorasTotales(codigoEmpleado);
+                                    totalPagos += horas * tarifa;
+                                }
+                            }
+                            document.getElementById('totalPagos').innerText = `Total a Pagar: ${totalPagos.toFixed(2)}€`;
+                        }
+
+
+
+                        // Resetear estado (al ir a Inicio)
+                        function resetearEstado() {
+                            // Elimina cualquier estado guardado
+                            localStorage.removeItem('estado');
+
+                            // Recarga la web desde cero
+                            location.reload();
+                        }
+                        // Eliminado los botones de actualización específicos de Horario, Empleados y Resumen
+                        // ya que el botón único superior en panel admin se encarga de actualizar la vista actual
+                    </script>   
+    <script>
+        function volverAlInicio() {
+                document.getElementById('codigo').style.display = 'block';
+                document.getElementById('admin').style.display = 'none';
+                document.getElementById('log').innerHTML = '';
+                document.getElementById('calendar').innerHTML = '';
+                document.getElementById('codigoInput').value = '';
+                location.hash = "#codigo"; // Para que el scroll baje hasta ahí
+            }
+
+    </script>
+</body>
+
+</html>
